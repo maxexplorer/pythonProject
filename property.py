@@ -6,22 +6,20 @@ class BankAccount:
         self.name = name
         self.__balance = balance
 
-    def get_balance(self):
+    @property
+    def my_balance(self):
         return self.__balance
 
-    def set_balance(self, value):
+    @my_balance.setter
+    def my_balance(self, value):
         if not isinstance(value, (int, float)):
             raise ValueError('Balance should int or float')
         else:
             self.__balance = value
 
-    def delete_balance(self):
+    @my_balance.deleter
+    def my_balance(self):
         del self.__balance
-
-    my_balance = property(get_balance)
-    my_balance = my_balance.setter(set_balance)
-    my_balance = my_balance.deleter(delete_balance)
-
 
 a = BankAccount('Alex', 100000000)
 print(a.my_balance)
