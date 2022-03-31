@@ -18,12 +18,12 @@ class BankAccount:
     def delete_balance(self):
         del self.__balance
 
-    balance = property(fget=get_balance,
-                       fset=set_balance,
-                       fdel=delete_balance)
+    my_balance = property(get_balance)
+    my_balance = my_balance.setter(set_balance)
+    my_balance = my_balance.deleter(delete_balance)
 
 
 a = BankAccount('Alex', 100000000)
-print(a.balance)
-a.balance = 777
-print(a.balance)
+print(a.my_balance)
+a.my_balance = 777
+print(a.my_balance)
