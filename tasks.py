@@ -70,3 +70,10 @@ while m != 1:
 for i in matrix_c:
     print(*i)
 
+
+
+
+
+
+
+
