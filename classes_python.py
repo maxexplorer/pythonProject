@@ -65,7 +65,7 @@ class Stack:
 
     def push_front(self, obj):
         if self.top is None:
-            self.__last = self.top = None
+            self.__last = self.top = obj
         else:
             obj.next = self.top
             self.top = obj
