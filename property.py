@@ -21,11 +21,11 @@ class BankAccount:
     def my_balance(self):
         del self.__balance
 
+
 a = BankAccount('Alex', 100000000)
 print(a.my_balance)
 a.my_balance = 777
 print(a.my_balance)
-
 
 from string import digits
 
@@ -76,8 +76,8 @@ print(a.password)
 a.password = 'cjkhkjl7'
 print(a.password)
 
-
 from string import ascii_letters
+
 
 class Registration:
 
@@ -140,6 +140,3 @@ class Registration:
 
 a = Registration('abc@mail.ru', 'qwerty123')
 print(a.password)
-
-
-
