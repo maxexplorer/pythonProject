@@ -153,3 +153,72 @@ class StackObj:
     @next.setter
     def next(self, obj):
         self.__next = obj
+
+
+# classes StackInterface, Stack and StackObj
+
+from abc import ABC, abstractmethod
+
+
+class StackInterface(ABC):
+    @abstractmethod
+    def push_back(self, obj):
+        """adding an object to the end of the stack"""
+
+    @abstractmethod
+    def pop_back(self):
+        """removing the last object from the stack"""
+
+
+class Stack(StackInterface):
+    def __init__(self):
+        self._top = None
+        self._last = None
+
+    def push_back(self, obj):
+        if self._last:
+            self._last.next = obj
+        self._last = obj
+        if self._top is None:
+            self._top = obj
+
+    def pop_back(self):
+        h = self._top
+        if h is None:
+            return
+
+        while h.next and h.next != self._last:
+            h = h.next
+
+        if self._top == self._last:
+            del_obj = self._top
+            self._top = self._last = None
+        else:
+            del_obj = h.next
+            h.next = None
+            self._last = h
+        return del_obj
+
+    def __iter__(self):
+        h = self._top
+        while h:
+            yield h
+            h = h.next
+
+
+class StackObj:
+    def __init__(self, data):
+        self._data = data
+        self._next = None
+
+    @property
+    def data(self):
+        return self._data
+
+    @property
+    def next(self):
+        return self._next
+
+    @next.setter
+    def next(self, obj):
+        self._next = obj
