@@ -222,3 +222,55 @@ class StackObj:
     @next.setter
     def next(self, obj):
         self._next = obj
+
+
+# classes CountryInterface and Country
+class CountryInterface(ABC):
+    @property
+    @abstractmethod
+    def name(self):
+        """abstract object-property"""
+
+    @property
+    @abstractmethod
+    def population(self):
+        """abstract object-property"""
+
+    @property
+    @abstractmethod
+    def square(self):
+        """abstract object-property"""
+
+    @abstractmethod
+    def get_info(self):
+        """method for getting information about the country"""
+
+
+class Country(CountryInterface):
+    def __init__(self, name, population, square):
+        self.__name = name
+        self.__population = population
+        self.__square = square
+
+    @property
+    def name(self):
+        return self.__name
+
+    @property
+    def population(self):
+        return self.__population
+
+    @population.setter
+    def population(self, value):
+        self.__population = value
+
+    @property
+    def square(self):
+        return self.__square
+
+    @square.setter
+    def square(self, value):
+        self.__square = value
+
+    def get_info(self):
+        return f"{self.name}: {self.square}, {self.population}"
