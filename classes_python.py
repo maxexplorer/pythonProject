@@ -322,7 +322,7 @@ class Track:
 
     def __get_length(self, i):
         return ((self._tracks[i - 1].x - self._tracks[i].x) ** 2 + (
-                    self._tracks[i - 1].y - self._tracks[i].y) ** 2) ** 0.5
+                self._tracks[i - 1].y - self._tracks[i].y) ** 2) ** 0.5
 
     def __eq__(self, other):
         return len(self) == len(other)
@@ -406,6 +406,7 @@ class GamePole:
 pole_game = GamePole(10, 12)
 pole_game.show()
 
+
 # classes Router, Server and Data
 
 class Router:
@@ -472,3 +473,71 @@ sv_to.send_data(Data("Hi", sv_from.get_ip()))
 router.send_data()
 msg_lst_from = sv_from.get_data()
 msg_lst_to = sv_to.get_data()
+
+
+# classes ObjList and LinkedList
+
+class ObjList:
+    def __init__(self, data):
+        self.__data = data
+        self.__next = None
+        self.__prev = None
+
+    def get_data(self):
+        return self.__data
+
+    def set_data(self, obj):
+        self.__data = obj
+
+    def get_next(self):
+        return self.__next
+
+    def set_next(self, obj):
+        self.__next = obj
+
+    def get_prev(self):
+        return self.__prev
+
+    def set_prev(self, obj):
+        self.__prev = obj
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def add_obj(self, obj):
+        if self.tail:
+            self.tail.set_next(obj)
+        obj.set_prev(self.tail)
+        self.tail = obj
+        if not self.head:
+            self.head = obj
+
+    def remove_obj(self):
+        if self.tail is None:
+            return
+
+        prev = self.tail.get_prev()
+        if prev:
+            prev.set_next(None)
+        self.tail = prev
+
+        if self.tail is None:
+            self.head = None
+
+    def get_data(self):
+        s = []
+        h = self.head
+        while h:
+            s.append(h.get_data())
+            h = h.get_next()
+        return s
+
+
+lst = LinkedList()
+lst.add_obj(ObjList("данные 1"))
+lst.add_obj(ObjList("данные 2"))
+lst.add_obj(ObjList("данные 3"))
+res = lst.get_data()  # ['данные 1', 'данные 2', 'данные 3']
