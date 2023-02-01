@@ -541,3 +541,44 @@ lst.add_obj(ObjList("данные 1"))
 lst.add_obj(ObjList("данные 2"))
 lst.add_obj(ObjList("данные 3"))
 res = lst.get_data()  # ['данные 1', 'данные 2', 'данные 3']
+
+# class EmailVaidator
+
+from string import ascii_uppercase, ascii_lowercase, digits
+
+
+class EmailValidator:
+    EMAIL_CHARS = ascii_uppercase + ascii_lowercase + digits + '_.@'
+    EMAIL_RANDOM_CHARS = ascii_uppercase + ascii_lowercase + digits + '_'
+
+    def __new__(cls, *args, **kwargs):
+        return None
+
+    @classmethod
+    def get_random_email(cls):
+        return ''.join(sample(cls.EMAIL_RANDOM_CHARS, randint(4, 20))) + '@gmail.com'
+
+    @classmethod
+    def check_email(cls, email):
+        if not cls.__is_email_str(email):
+            return False
+        if not set(email) < set(cls.EMAIL_CHARS):
+            return False
+        s = email.split('@')
+        if len(s) != 2:
+            return False
+        if len(s[0]) > 100 or len(s[1]) > 50:
+            return False
+        if '.' not in s[1]:
+            return False
+        if email.count('..') > 0:
+            return False
+        return True
+
+    @staticmethod
+    def __is_email_str(email):
+        return type(email) == str
+
+
+res = EmailValidator.check_email("sc_lib@list.ru")  # True
+res = EmailValidator.check_email("sc_lib@list_ru")  # False
