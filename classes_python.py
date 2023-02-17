@@ -803,3 +803,42 @@ linked_lst.remove_obj(2)
 linked_lst.add_obj(ObjList("Python ООП"))
 n = len(linked_lst)  # n = 3
 s = linked_lst(1)  # s = Balakirev
+
+# class Complex
+
+from math import sqrt
+
+
+class Complex:
+    def __init__(self, real, img):
+        self.__real = real
+        self.__img = img
+
+    @property
+    def real(self):
+        return self.__real
+
+    @real.setter
+    def real(self, value):
+        if not isinstance(value, (int, float)):
+            raise ValueError("Неверный тип данных.")
+        self.__real = value
+
+    @property
+    def img(self):
+        return self.__img
+
+    @img.setter
+    def img(self, value):
+        if not isinstance(value, (int, float)):
+            raise ValueError("Неверный тип данных.")
+        self.__img = value
+
+    def __abs__(self):
+        return sqrt(self.real ** 2 + self.img ** 2)
+
+
+cmp = Complex(7, 8)
+cmp.real = 3
+cmp.img = 4
+c_abs = abs(cmp)
