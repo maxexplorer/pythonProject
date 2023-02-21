@@ -866,11 +866,78 @@ class RadiusVector:
     def __abs__(self):
         return sum(i ** 2 for i in self.__coords) ** 0.5
 
+
 vector3D = RadiusVector(3)
 vector3D.set_coords(3, -5.6, 8)
 a, b, c = vector3D.get_coords()
-vector3D.set_coords(3, -5.6, 8, 10, 11) # ошибки быть не должно, последние две координаты игнорируются
-vector3D.set_coords(1, 2) # ошибки быть не должно, меняются только первые две координаты
-res_len = len(vector3D) # res_len = 3
+vector3D.set_coords(3, -5.6, 8, 10, 11)  # ошибки быть не должно, последние две координаты игнорируются
+vector3D.set_coords(1, 2)  # ошибки быть не должно, меняются только первые две координаты
+res_len = len(vector3D)  # res_len = 3
 res_abs = abs(vector3D)
 
+
+# classes TreeObj and DecisionTree
+
+class TreeObj:
+    def __init__(self, index, value=None):
+        self.index = index
+        self.value = value
+        self.left = None
+        self.right = None
+
+    @property
+    def left(self):
+        return self.__left
+
+    @left.setter
+    def left(self, obj):
+        self.__left = obj
+
+    @property
+    def right(self):
+        return self.__right
+
+    @right.setter
+    def right(self, obj):
+        self.__right = obj
+
+
+class DecisionTree:
+    @classmethod
+    def add_obj(cls, obj, node=None, left=True):
+        if node:
+            if left:
+                node.left = obj
+            else:
+                node.right = obj
+        return obj
+
+    @classmethod
+    def predict(cls, root, x):
+        obj = root
+        while obj:
+            obj_next = cls.get_next(obj, x)
+            if obj_next is None:
+                break
+            else:
+                obj = obj_next
+        return obj.value
+
+    @classmethod
+    def get_next(cls, obj, x):
+        if x[obj.index] == 1:
+            return obj.left
+        return obj.right
+
+
+root = DecisionTree.add_obj(TreeObj(0))
+v_11 = DecisionTree.add_obj(TreeObj(1), root)
+v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
+DecisionTree.add_obj(TreeObj(-1, "будет программистом"), v_11)
+DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
+DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
+DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
+
+x = [1, 1, 0]
+res = DecisionTree.predict(root, x)  # будет программистом
+print(res)
