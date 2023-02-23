@@ -941,3 +941,36 @@ DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
 x = [1, 1, 0]
 res = DecisionTree.predict(root, x)  # будет программистом
 print(res)
+
+# clases Clock and DeltaClock
+
+class Clock:
+    def __init__(self, hours, minutes, seconds):
+        self.hours = hours
+        self.minutes = minutes
+        self.seconds = seconds
+
+    def get_time(self):
+        return self.hours * 3600 + self.minutes * 60 + self.seconds
+
+
+class DeltaClock:
+    def __init__(self, clock1, clock2):
+        self.clock1 = clock1
+        self.clock2 = clock2
+
+    def __str__(self):
+        if self.clock1.get_time() - self.clock2.get_time() < 0:
+            return f'00: 00: 00'
+        return f'{str(self.clock1.hours - self.clock2.hours).zfill(2)}: ' \
+               f'{str(self.clock1.minutes - self.clock2.minutes).zfill(2)}: ' \
+               f'{str(self.clock1.seconds - self.clock2.seconds).zfill(2)}'
+
+    def __len__(self):
+        diff = self.clock1.get_time() - self.clock2.get_time()
+        return diff if diff > 0 else 0
+
+
+dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
+print(dt)  # 01: 30: 00
+len_dt = len(dt)  # 5400
