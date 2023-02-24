@@ -942,6 +942,7 @@ x = [1, 1, 0]
 res = DecisionTree.predict(root, x)  # будет программистом
 print(res)
 
+
 # clases Clock and DeltaClock
 
 class Clock:
@@ -974,3 +975,40 @@ class DeltaClock:
 dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
 print(dt)  # 01: 30: 00
 len_dt = len(dt)  # 5400
+
+
+# classes Ingredient and Recipe
+
+class Ingredient:
+    def __init__(self, name, volume, measure):
+        self.name = name
+        self.volume = volume
+        self.measure = measure
+
+    def __str__(self):
+        return f"{self.name}: {self.volume}, {self.measure}"
+
+
+class Recipe:
+    def __init__(self, *args):
+        self.ingredients = list(args)
+
+    def get_ingredients(self):
+        return tuple(self.ingredients)
+
+    def add_ingredient(self, ing):
+        self.ingredients.append(ing)
+
+    def remove_ingredient(self, ing):
+        self.ingredients.remove(ing)
+
+    def __len__(self):
+        return len(self.ingredients)
+
+
+recipe = Recipe()
+recipe.add_ingredient(Ingredient("Соль", 1, "столовая ложка"))
+recipe.add_ingredient(Ingredient("Мука", 1, "кг"))
+recipe.add_ingredient(Ingredient("Мясо баранины", 10, "кг"))
+ings = recipe.get_ingredients()
+n = len(recipe)  # n = 3
