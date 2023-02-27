@@ -1088,3 +1088,52 @@ lst *= 5.54
 lst = lst / 13  # деление каждого числа списка на указанное число (в данном случае на 13)
 lst = 3 / lst  # деление числа на каждый элемент списка
 lst /= 13.0
+
+
+# classes Book and Lib
+
+class Book:
+    def __init__(self, title, author, year):
+        self.title = title
+        self.author = author
+        self.year = year
+
+
+class Lib:
+    def __init__(self, book_list=None):
+        book_list = book_list if book_list and isinstance(book_list, list) else []
+        self.book_list = book_list
+
+    @staticmethod
+    def __verify_method(obj):
+        if not isinstance(obj, (Book, int)):
+            raise TypeError('object should class Lib')
+
+    def __add__(self, other):
+        self.__verify_method(other)
+        self.book_list.append(other)
+        return self
+
+    def __iadd__(self, other):
+        self.__verify_method(other)
+        self.book_list.append(other)
+        return self
+
+    def __sub__(self, other):
+        self.__verify_method(other)
+        if type(other) == Book:
+            self.book_list.remove(other)
+        else:
+            self.book_list.pop(other)
+        return self
+
+    def __isub__(self, other):
+        self.__verify_method(other)
+        if type(other) == Book:
+            self.book_list.remove(other)
+        else:
+            self.book_list.pop(other)
+        return self
+
+    def __len__(self):
+        return len(self.book_list)
