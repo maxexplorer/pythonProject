@@ -1221,3 +1221,41 @@ box = 3 * box2  # Box3D: width=6, height=12, depth=18
 box = box2 - box1  # Box3D: width=1, height=2, depth=3 (соответствующие размерности вычитаются)
 box = box1 // 2  # Box3D: width=0, height=1, depth=1 (соответствующие размерности целочисленно делятся на 2)
 box = box2 % 3  # Box3D: width=2, height=1, depth=0
+
+
+# class MaxPooling
+
+class MaxPooling:
+    def __init__(self, step=(2, 2), size=(2, 2)):
+        self.__step = step
+        self.__size = size
+
+    def __call__(self, matrix):
+        rows = len(matrix)
+        cols = len(matrix[0]) if rows > 0 else 0
+
+        if rows == 0:
+            return [[]]
+
+        if not all(map(lambda x: len(x) == cols, matrix)) or \
+                not all(map(lambda row: all(map(lambda x: type(x) in (int, float), row)), matrix)):
+            raise ValueError("Неверный формат для первого параметра matrix.")
+
+        h, w = self.__size[0], self.__size[1]
+        sh, sw = self.__step[0], self.__step[1]
+
+        rows_range = (rows - h) // sh + 1
+        cols_range = (cols - w) // sw + 1
+
+        res = [[0] * cols_range for _ in range(rows_range)]
+
+        for i in range(rows_range):
+            for j in range(cols_range):
+                s = (x for r in matrix[i * sh:i * sh + h] for x in r[j * sw:j * sw + w])
+                res[i][j] = max(s)
+        return res
+
+
+mp = MaxPooling(step=(2, 2), size=(2, 2))
+res = mp([[1, 2, 3, 4], [5, 6, 7, 8], [9, 8, 7, 6], [5, 4, 3, 2]])  # [[6, 8], [9, 7]]
+print(res)
