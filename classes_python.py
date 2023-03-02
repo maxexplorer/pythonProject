@@ -1304,17 +1304,21 @@ class Dimensions:
         if self.__verify_method(value):
             self.__c = value
 
+    @property
+    def volume(self):
+        return self.a * self.b * self.c
+
     def __ge__(self, other):
-        return self.__a * self.__b * self.__c >= other.__a * other.__b * other.__c
+        return self.volume >= other.volume
 
     def __gt__(self, other):
-        return self.__a * self.__b * self.__c > other.__a * other.__b * other.__c
+        return self.volume > other.volume
 
     def __le__(self, other):
-        return self.__a * self.__b * self.__c <= other.__a * other.__b * other.__c
+        return self.volume <= other.volume
 
     def __lt__(self, other):
-        return self.__a * self.__b * self.__c < other.__a * other.__b * other.__c
+        return self.volume < other.volume
 
 
 class ShopItem:
