@@ -1334,3 +1334,41 @@ lst_shop = [ShopItem('кеды', 1024, Dimensions(40, 30, 120)),
             ShopItem('табуретка', 2000.99, Dimensions(500, 200, 200))]
 
 lst_shop_sorted = sorted(lst_shop, key=lambda x: x.dim)
+
+# class StringText
+
+import re
+
+stich = ["Я к вам пишу – чего же боле?",
+         "Что я могу еще сказать?",
+         "Теперь, я знаю, в вашей воле",
+         "Меня презреньем наказать.",
+         "Но вы, к моей несчастной доле",
+         "Хоть каплю жалости храня,",
+         "Вы не оставите меня."]
+
+pattern = r'[–?!,.;]'
+lst = []
+for i in stich:
+    lst.append(re.sub(pattern, '', i).split())
+
+
+class StringText:
+    def __init__(self, lst_words):
+        self.lst_words = lst_words
+
+    def __ge__(self, other):
+        return len(self.lst_words) >= len(other.lst_words)
+
+    def __gt__(self, other):
+        return len(self.lst_words) > len(other.lst_words)
+
+    def __le__(self, other):
+        return len(self.lst_words) <= len(other.lst_words)
+
+    def __lt__(self, other):
+        return len(self.lst_words) < len(other.lst_words)
+
+
+lst_text = [StringText(lst_words) for lst_words in lst]
+lst_text_sorted = [' '.join(i.lst_words) for i in sorted(lst_text, reverse=True)]
