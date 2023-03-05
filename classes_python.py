@@ -1405,4 +1405,23 @@ dict_words = [Morph('связь', 'связи', 'связью', 'связей', 
 text = 'Мы будем устанавливать связь завтра днем.'
 words = map(lambda x: x.lower().strip(' .,!?;:'), text.split())
 res = sum(word == morph for word in words for morph in dict_words)
-print(res)
+
+
+# class FileAcceptor
+
+class FileAcceptor:
+    def __init__(self, *args):
+        self.extensions = args
+
+    def __add__(self, other):
+        return FileAcceptor(*(self.extensions + other.extensions))
+
+    def __call__(self, filename):
+        return filename.split('.')[-1] in self.extensions
+
+
+filenames = ["boat.jpg", "ans.web.png", "text.txt", "www.python.doc", "my.ava.jpg", "forest.jpeg", "eq_1.png",
+             "eq_2.xls"]
+acceptor_images = FileAcceptor("jpg", "jpeg", "png")
+acceptor_docs = FileAcceptor("txt", "doc", "xls")
+filenames = list(filter(acceptor_images + acceptor_docs, filenames))
