@@ -1414,7 +1414,7 @@ class FileAcceptor:
         self.extensions = args
 
     def __add__(self, other):
-        return FileAcceptor(*(self.extensions + other.extensions))
+        return FileAcceptor(*self.extensions + other.extensions)
 
     def __call__(self, filename):
         return filename.split('.')[-1] in self.extensions
