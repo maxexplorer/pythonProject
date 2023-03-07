@@ -1497,3 +1497,39 @@ class MoneyD(Money):
 
 class MoneyE(Money):
     type_money = 'euro'
+
+
+# class Body
+
+class Body:
+    def __init__(self, name, ro, volume):
+        self.name = name
+        self.ro = ro
+        self.volume = volume
+
+    def body_weight(self):
+        return self.ro * self.volume
+
+    def __eq__(self, other):
+        if type(other) == Body:
+            return self.body_weight() == other.body_weight()
+        return self.body_weight() == other
+
+    def __gt__(self, other):
+        if type(other) == Body:
+            return self.body_weight() > other.body_weight()
+        return self.body_weight() > other
+
+    def __lt__(self, other):
+        if type(other) == Body:
+            return self.body_weight() < other.body_weight()
+        return self.body_weight() < other
+
+
+body1 = Body('square', 10, 15.0)
+body2 = Body('sircle', 10, 15.0)
+
+print(body1 > 15)  # True, если масса тела body1 больше массы тела body2
+print(body1 == body2)  # True, если масса тела body1 равна массе тела body2
+print(body1 < 100)  # True, если масса тела body1 меньше 10
+print(body2 == 5)  # True, если масса тела body2 равна 5
