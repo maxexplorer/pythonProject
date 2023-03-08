@@ -1533,3 +1533,47 @@ print(body1 > 15)  # True, если масса тела body1 больше ма�
 print(body1 == body2)  # True, если масса тела body1 равна массе тела body2
 print(body1 < 100)  # True, если масса тела body1 меньше 10
 print(body2 == 5)  # True, если масса тела body2 равна 5
+
+
+# classes Thing and Box
+
+class Thing:
+    def __init__(self, name: str, mass: (int, float)):
+        self.name = name.lower()
+        self.mass = mass
+        self.lst = [self.name, self.mass]
+
+    def __eq__(self, other):
+        if not isinstance(other, Thing):
+            raise ValueError('operand should type class Thing')
+        return self.name == other.name and self.mass == other.mass
+
+
+class Box:
+    def __init__(self):
+        self.__things = []
+
+    def add_thing(self, obj: Thing):
+        self.__things.append(obj)
+
+    def get_things(self):
+        return self.__things
+
+    def __eq__(self, other):
+        if not isinstance(other, Box):
+            raise ValueError('operand should type class Box')
+        return sum(i.lst == j.lst for i in self.__things for j in other.__things) == len(self.__things)
+
+
+b1 = Box()
+b2 = Box()
+
+b1.add_thing(Thing('мел', 100))
+b1.add_thing(Thing('тряпка', 200))
+b1.add_thing(Thing('доска', 2000))
+
+b2.add_thing(Thing('тряпка', 200))
+b2.add_thing(Thing('мел', 100))
+b2.add_thing(Thing('доска', 2000))
+
+res = b1 != b2  # True
