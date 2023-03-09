@@ -1577,3 +1577,52 @@ b2.add_thing(Thing('мел', 100))
 b2.add_thing(Thing('доска', 2000))
 
 res = b1 != b2  # True
+
+
+# classes DataBase and Record
+
+class DataBase:
+    def __init__(self, path):
+        self.path = path
+        self.dict_db = {}
+
+    def write(self, record):
+        self.dict_db.setdefault(record, [])
+        self.dict_db[record].append(record)
+
+    def read(self, pk):
+        r = (x for row in self.dict_db.values() for x in row)
+        obj = tuple(filter(lambda x: x.pk == pk, r))
+        return obj[0] if len(obj) > 0 else None
+
+
+class Record:
+    count = 1
+
+    def __init__(self, fio, descr, old):
+        self.pk = self.count
+        Record.count += 1
+        self.fio = fio
+        self.descr = descr
+        self.old = old
+
+    def __hash__(self):
+        return hash((self.fio.lower(), self.old))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+
+lst_in = ['Балакирев С.М.; программист; 33',
+          'Кузнецов Н.И.; разведчик-нелегал; 35',
+          'Суворов А.В.; полководец; 42',
+          'Иванов И.И.; фигурант всех подобных списков; 26',
+          'Балакирев С.М.; преподаватель; 33'
+          ]
+
+db = DataBase('database.db')
+
+for i in lst_in:
+    args = list(map(str.strip, i.split(';')))
+    args[-1] = int(args[-1])
+    db.write(Record(*args))
