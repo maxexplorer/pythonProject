@@ -1673,3 +1673,31 @@ class Dimensions:
 
 s_inp = '1 2 3; 4 5 6.78; 1 2 3; 3 1 2.5'
 lst_dims = sorted([Dimensions(*map(float, elem.split())) for elem in s_inp.split(';')], key=hash)
+
+
+# class Triangle
+
+class Triangle:
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+        self.verify_triangle()
+
+    def __setattr__(self, key, value):
+        if type(value) not in (int, float) and value <= 0:
+            raise ValueError("длины сторон треугольника должны быть положительными числами")
+        object.__setattr__(self, key, value)
+
+    def verify_triangle(self):
+        if not (self.a < self.b + self.c and self.b < self.a + self.c and self.c < self.a + self.b):
+            raise ValueError("с указанными длинами нельзя образовать треугольник")
+        return True
+
+    def __len__(self):
+        return int(self.a + self.b + self.c)
+
+    def __call__(self, *args, **kwargs):
+        p = (self.a + self.b + self.c) / 2
+        s = (p * (p - self.a) * (p - self.b) * (p - self.c)) ** 0.5
+        return s
