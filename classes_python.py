@@ -1851,3 +1851,60 @@ class GamePole:
     def show_pole(self):
         for row in self.pole:
             print(*map(lambda x: '#' if not x.is_open else x.number if not x.is_mine else '*', row))
+
+
+# class Vector
+
+class Vector:
+    def __init__(self, *args):
+        self.coords = args
+
+    @staticmethod
+    def verify_length(obj1, obj2):
+        if len(obj1) != len(obj2):
+            raise ArithmeticError('размерности векторов не совпадают')
+
+    def __len__(self):
+        return len(self.coords)
+
+    def __add__(self, other):
+        self.verify_length(self, other)
+        return Vector(*(x + y for x, y in zip(self.coords, other.coords)))
+
+    def __sub__(self, other):
+        self.verify_length(self, other)
+        return Vector(*(x - y for x, y in zip(self.coords, other.coords)))
+
+    def __mul__(self, other):
+        self.verify_length(self, other)
+        return Vector(*(x * y for x, y in zip(self.coords, other.coords)))
+
+    def __iadd__(self, other):
+        self.coords = tuple(x + y for x, y in zip(self.coords, other.coords)) if type(other) == Vector else tuple(
+            x + other for x in self.coords)
+        return self
+
+    def __isub__(self, other):
+        self.coords = tuple(x - y for x, y in zip(self.coords, other.coords)) if type(other) == Vector else tuple(
+            x - other for x in self.coords)
+        return self
+
+    def __eq__(self, other):
+        return self.coords == other.coords
+
+
+v1 = Vector(1, 2, 3)
+v2 = Vector(4, 5, 6)
+print((v1 + v2).coords)  # [5, 7, 9]
+print((v1 - v2).coords)  # [-3, -3, -3]
+print((v1 * v2).coords)  # [4, 10, 18]
+v1 += 10
+print(v1.coords)  # [11, 12, 13]
+v1 -= 10
+print(v1.coords)  # [1, 2, 3]
+v1 += v2
+print(v1.coords)  # [5, 7, 9]
+v2 -= v1
+print(v2.coords)  # [-1, -2, -3]
+print(v1 == v2)  # False
+print(v1 != v2)  # True
