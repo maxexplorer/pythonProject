@@ -1921,12 +1921,16 @@ class Track:
     def add_point(self, x, y, speed):
         self.coords.append([(x, y), speed])
 
+    def __chek_index(self, index):
+        if type(index) != int or index not in range(len(self.coords)):
+            raise IndexError('некорректный индекс')
+
     def __getitem__(self, item):
-        if item in range(0, len(self.coords)):
-            return self.coords[item]
-        raise IndexError('некорректный индекс')
+        self.__chek_index(item)
+        return self.coords[item]
 
     def __setitem__(self, key, value):
+        self.__chek_index(key)
         self.coords[key][-1] = value
 
 
